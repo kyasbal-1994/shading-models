@@ -1,0 +1,49 @@
+@Pass
+FS_PREC(mediump,float)
+
+varying vec3 vNormal;
+varying vec3 vPosition;
+#ifdef VS
+    attribute vec3 position;
+    attribute vec3 normal;
+
+    uniform mat4 _matPVM;
+    uniform mat4 _matM;
+    void main(){
+        gl_Position = _matPVM * vec4(position,1);
+        vNormal =normalize((_matM * vec4(normal,0)).xyz);
+        vPosition = (_matM * vec4(position,1)).xyz;
+    }
+#endif
+
+#ifdef FS
+
+    @{default:0.3}
+    uniform float albedo;
+
+    @{default:10}
+    uniform float roughness;
+
+    uniform vec3 _cameraPosition;
+
+    @{default:"1,1,1"}
+    uniform vec3 ld;
+
+    void main(){
+        float r = roughness;
+        float r2 = r * r;
+        vec3 camDir = normalize(_cameraPosition - vPosition);
+        float lvd = dot(ld,camDir);
+        float nld = dot(ld,vNormal);
+        float nvd = dot(vNormal,camDir);
+
+        float s = lvd - nld * nvd;
+        float t = mix(1.,max(nld,nvd),step(0.,s));
+        
+        float B = 0.45 * r2 /(r2 + 0.09);
+        float A = 1.0 + r2 * (albedo/(r2 +0.13) + 0.5/(r2 + 0.33));
+        
+        float dCol = albedo * max(0.,nld) * (A + B *s/t);
+         gl_FragColor = vec4(vec3(dCol),1);
+    }
+#endif

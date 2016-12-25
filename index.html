@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="https://unpkg.com/grimoirejs-preset-basic/register/grimoire-preset-basic.min.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <script type="text/goml">
+        <goml>
+            <import-material typeName="oren-nayar" src="./oren-nayar.sort"/>
+            <import-material typeName="lambert" src="./lambert.sort"/>
+            <import-material typeName="phong" src="./phong.sort"/>
+            <import-material typeName="blinn-phong" src="./blinn-phong.sort"/>
+            <scene>
+                <camera>
+                  <camera.components>
+                    <MouseCameraControl center="10"/>
+                  </camera.components>
+                </camera>
+                 <mesh material="new(oren-nayar)" position="-2,0,0" geometry="sphere"/>
+                <mesh material="new(lambert)" geometry="sphere"/>
+                <mesh material="new(phong)" position="2,0,0" geometry="sphere"/>
+                <mesh material="new(blinn-phong)" position="4,0,0" geometry="sphere"/>
+            </scene>
+        </goml>
+    </script>
+  </body>
+</html>

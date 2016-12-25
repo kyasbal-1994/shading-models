@@ -1,0 +1,47 @@
+@Pass
+FS_PREC(mediump,float)
+
+varying vec3 vNormal;
+varying vec3 vPosition;
+
+#ifdef VS
+    attribute vec3 position;
+    attribute vec3 normal;
+
+    uniform mat4 _matPVM;
+    uniform mat4 _matM;
+    void main(){
+        gl_Position  = _matPVM * vec4(position,1);
+        vNormal =normalize((_matM * vec4(normal,0)).xyz);
+        vPosition = (_matM * vec4(position,1)).xyz;
+    }
+#endif
+
+#ifdef FS
+
+    @{default:"white",type:"color"}
+    uniform vec3 diffuse;
+    
+    @{default:"white",type:"color"}
+    uniform vec3 specular;
+
+    @{default:100}
+    uniform float shininess;
+
+    @{default:"n(1,1,1)"}
+    uniform vec3 ld;
+
+    uniform vec3 _cameraPosition;
+
+    void main(){
+        float cosine = dot(vNormal,ld);
+        vec3 dCol = max(0.,cosine) * diffuse;
+        vec3 cDir = normalize(_cameraPosition - vPosition);
+        float specAngle = dot(normalize(ld + cDir),vNormal);
+        vec3 sCol = vec3(0,0,0);
+        if(specAngle > 0.){
+            sCol = pow(specAngle,shininess) * specular;
+        }
+        gl_FragColor = vec4(sCol + dCol,1);
+    }
+#endif
