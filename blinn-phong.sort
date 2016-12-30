@@ -30,7 +30,7 @@ varying vec3 vPosition;
 
     @{default:"n(1,1,1)"}
     uniform vec3 ld;
-
+    @CAMERA_POSITION
     uniform vec3 _cameraPosition;
 
     void main(){

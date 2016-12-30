@@ -24,6 +24,7 @@ varying vec3 vPosition;
     @{default:10}
     uniform float roughness;
 
+    @CAMERA_POSITION
     uniform vec3 _cameraPosition;
 
     @{default:"1,1,1"}
