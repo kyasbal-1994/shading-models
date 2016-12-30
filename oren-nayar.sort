@@ -1,4 +1,4 @@
-@Pass
+@Pass{
 FS_PREC(mediump,float)
 
 varying vec3 vNormal;
@@ -39,11 +39,12 @@ varying vec3 vPosition;
 
         float s = lvd - nld * nvd;
         float t = mix(1.,max(nld,nvd),step(0.,s));
-        
+
         float B = 0.45 * r2 /(r2 + 0.09);
         float A = 1.0 + r2 * (albedo/(r2 +0.13) + 0.5/(r2 + 0.33));
-        
+
         float dCol = albedo * max(0.,nld) * (A + B *s/t);
          gl_FragColor = vec4(vec3(dCol),1);
     }
 #endif
+}

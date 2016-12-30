@@ -1,4 +1,4 @@
-@Pass
+@Pass{
 FS_PREC(mediump,float)
 
 varying vec3 vNormal;
@@ -21,7 +21,7 @@ varying vec3 vPosition;
 
     @{default:"white",type:"color"}
     uniform vec3 diffuse;
-    
+
     @{default:"white",type:"color"}
     uniform vec3 specular;
 
@@ -45,3 +45,4 @@ varying vec3 vPosition;
         gl_FragColor = vec4(sCol + dCol,1);
     }
 #endif
+}
